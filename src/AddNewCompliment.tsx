@@ -1,21 +1,25 @@
-import * as Popover from '@radix-ui/react-popover';
+import * as Dialog from '@radix-ui/react-dialog';
+import AddingCompliment from './AddingCompliment';
 import './AddNewCompliment.css'
 
 
 function AddNewCompliment(){
 
     return (
-        <Popover.Root>
-        <Popover.Trigger />
-        <Popover.Anchor />
-        <Popover.Portal>
-          <Popover.Content>
-            Add New
-            <Popover.Close />
-            <Popover.Arrow />
-          </Popover.Content>
-        </Popover.Portal>
-      </Popover.Root>
+      <Dialog.Root>
+      <Dialog.Trigger>
+        Add new compliment
+      </Dialog.Trigger>
+      <Dialog.Portal>
+        <Dialog.Overlay className="DialogOverlay"/>
+        <Dialog.Content className="DialogContent">
+          <Dialog.Title />
+          <Dialog.Description />
+          <AddingCompliment />
+          <Dialog.Close className="DialogClose"/>
+        </Dialog.Content>
+      </Dialog.Portal>
+    </Dialog.Root>
     )
 }
 
