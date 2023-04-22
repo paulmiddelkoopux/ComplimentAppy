@@ -1,32 +1,40 @@
+//LogIn.tsx
+
 import { auth, googleProvider } from './firebase';
 import { signInWithPopup } from 'firebase/auth';
+import firebase from 'firebase/app';
+import './LogIn.css'
 
-function LogIn () {
+type LogInProps = {
+  onUserLogin: (user: firebase.User) => void;
+};
 
-    const signInWithGoogle = async () => {
-        try {
-          googleProvider.setCustomParameters({ prompt: 'select_account' });
-          const result = await signInWithPopup(auth, googleProvider);
-          if (result.additionalUserInfo.isNewUser) {
-            setSignUp(true);
-          }
-        } catch (error) {
-          console.error('Error during Google sign-in:', error);
-        }
-      };
+function LogIn(props: LogInProps) {
 
-    return (
-        <>
-        <div className="header-and-tagline">
+  const signInWithGoogle = async () => {
+    try {
+      googleProvider.setCustomParameters({ prompt: 'select_account' });
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      console.log('Logged in user:', user);
+      props.onUserLogin(user);
+    } catch (error) {
+      console.error('Error during Google sign-in:', error);
+    }
+  };
+
+  return (
+    <>
+      <div className="header-and-tagline">
         <h1>Brillar</h1>
-      <p>Keep yourself glowing</p>
+        <p>Keep yourself glowing</p>
       </div>
-        <div className="login-signup">
-          <button onClick={signInWithGoogle} className="button">Log in with Google</button>
-          <small className="disclaimer">This app uses the Spotify API but does not store Spotify user data.</small>
-        </div>
-        </>
-    );
+      <div className="login">
+        <button onClick={signInWithGoogle} className="button">Continue with Google</button>
+        <small className="disclaimer">This app does not share your data</small>
+      </div>
+    </>
+  );
 }
 
-export default LogIn
+export default LogIn;
