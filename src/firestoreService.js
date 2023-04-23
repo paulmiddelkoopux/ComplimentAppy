@@ -10,17 +10,55 @@ import {
   getDoc,
   getDocs,
   setDoc,
+  serverTimestamp,
 } from 'firebase/firestore';
 
-export const addCompliment = async (userId, compliment) => {
+export const createUserInFirestore = async (user, setData) => {
+  const userRef = doc(firestore, `users/${user.uid}`);
+  const userDoc = await getDoc(userRef);
+
+  if (!userDoc.exists()) {
+    const newUser = {
+      uid: user.uid,
+      displayName: user.displayName,
+      email: user.email,
+      photoURL: user.photoURL,
+      // Add any other initial data you want to store for new users
+    };
+    console.log('New user has:', user.uid, user.displayName, user.email, user.photoURL);
+
     try {
-      const docRef = await addDoc(collection(firestore, `userCompliments/${userId}/compliments`), compliment);
-      return docRef.id;
+      await setDoc(userRef, newUser);
+      setData({ userId: user.uid });
     } catch (error) {
-      console.error('Error adding compliment to Firestore:', error);
-      return null;
+      console.error('Error creating user in Firestore:', error);
+      setData({ userId: null });
     }
-  };
+  } else {
+    setData({ userId: user.uid });
+  }
+};
+
+
+export const addCompliment = async (userId, compliment) => {
+  try {
+    const complimentsRef = collection(firestore, `users/${userId}/compliments`);
+    const newComplimentRef = doc(complimentsRef);
+    const newComplimentData = {
+      content: compliment,
+      date: serverTimestamp(),
+      creatorId: userId,
+    };
+    await setDoc(newComplimentRef, newComplimentData);
+    console.log('Added compliment with doc ID:', docRef.id);
+    return docRef.id;
+  } catch (error) {
+    console.log('user =', userId)
+    console.error('Error adding compliment to Firestore:', error);
+    return null;
+  }
+};
+
 
   export const deleteCompliment = async (userId, complimentId) => {
     try {

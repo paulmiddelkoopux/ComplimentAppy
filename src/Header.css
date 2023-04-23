@@ -1,0 +1,81 @@
+.header {
+    display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: center;
+    font-size: 1.5rem;
+    padding: 1rem;
+    font-weight: 700;
+    }
+
+    .IconButton {
+      background-color: transparent;
+      border: none;
+      cursor: pointer;
+      padding-left: 4px;
+      padding: 0px;
+    }
+
+    .logout-button {
+        background-color: black;
+        border-style: solid;
+        border-width: 0.5px;
+        border-color:#6e7a8a;
+        color: white;
+        cursor: pointer;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 0.5rem;
+        padding-bottom: 0.5rem;
+      }
+      
+      .logout-button:hover {
+        background-color: gray;
+        color: white;
+        cursor: pointer;
+      }
+
+
+
+
+.PopoverContent {
+    background-color: black;
+    display: flex;
+    flex-direction: column;
+    padding: 1rem;
+    max-height: 240px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    border-radius: 4px;
+    box-shadow:  0 4px 8px 0px rgba(0, 0, 0, 0.25);
+    box-shadow:  0 -2px 8px 0px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+
+      .PopoverTrigger {
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        border-style: none;
+        cursor: pointer;
+        gap: 0.25rem;
+        padding: 0.5rem;
+        border-radius: 5rem;
+      }
+
+      .PopoverTrigger:hover {
+        background-color: black;
+      }
+
+      .userProfileInfo {
+        display: flex !important;
+        flex-direction: row;
+        gap: 1rem !important;
+      }
+      
+      .userProfileInfo .userProfileInfoPic {
+        width: 2rem;
+        height: 2rem;
+        border-radius: 2rem;
+      }

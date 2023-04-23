@@ -1,6 +1,6 @@
 //LogIn.tsx
 
-import { auth, googleProvider } from './firebase';
+import { auth, googleProvider, firestore } from './firebase';
 import { signInWithPopup } from 'firebase/auth';
 import firebase from 'firebase/app';
 import './LogIn.css'
@@ -25,7 +25,7 @@ function LogIn(props: LogInProps) {
 
   return (
     <>
-      <div className="header-and-tagline">
+      <div className="headerAndTagline">
         <h1>Brillar</h1>
         <p>Keep yourself glowing</p>
       </div>
