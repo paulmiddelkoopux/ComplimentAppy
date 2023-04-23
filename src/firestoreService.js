@@ -39,19 +39,33 @@ export const createUserInFirestore = async (user, setData) => {
   }
 };
 
+export const getComplimentsByUser = async (userId) => {
+  try {
+    const querySnapshot = await getDocs(collection(firestore, `users/${userId}/compliments`));
+    const compliments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    return compliments;
+  } catch (error) {
+    console.error('Error getting compliments from Firestore:', error);
+    return null;
+  }
+};
+
 
 export const addCompliment = async (userId, compliment) => {
   try {
     const complimentsRef = collection(firestore, `users/${userId}/compliments`);
+    console.log('complimentsRef', complimentsRef)
     const newComplimentRef = doc(complimentsRef);
+    console.log('newComplimentRef', newComplimentRef)
     const newComplimentData = {
       content: compliment,
       date: serverTimestamp(),
       creatorId: userId,
     };
-    await setDoc(newComplimentRef, newComplimentData);
-    console.log('Added compliment with doc ID:', docRef.id);
-    return docRef.id;
+    console.log('newComplimentData', newComplimentData)
+    await addDoc(complimentsRef, newComplimentData);
+    console.log('Added compliment with doc ID:', complimentsRef);
+    return complimentsRef;
   } catch (error) {
     console.log('user =', userId)
     console.error('Error adding compliment to Firestore:', error);
@@ -60,22 +74,12 @@ export const addCompliment = async (userId, compliment) => {
 };
 
 
-  export const deleteCompliment = async (userId, complimentId) => {
-    try {
-      await deleteDoc(doc(firestore, `userCompliments/${userId}/compliments/${complimentId}`));
-    } catch (error) {
-      console.error('Error deleting compliment from Firestore:', error);
-    }
-  };
+export const deleteCompliment = async (userId, complimentId) => {
+  try {
+    await deleteDoc(doc(firestore, `users/${userId}/compliments/${complimentId}`));
+  } catch (error) {
+    console.error('Error deleting compliment from Firestore:', error);
+  }
+};
 
-  export const getComplimentsByUser = async (userId) => {
-    try {
-      const querySnapshot = await getDocs(collection(firestore, `userCompliments/${userId}/compliments`));
-      const compliments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-      return compliments;
-    } catch (error) {
-      console.error('Error getting compliments from Firestore:', error);
-      return null;
-    }
-  };
-  
+
