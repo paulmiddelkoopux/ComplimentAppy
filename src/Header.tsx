@@ -6,7 +6,15 @@ import './Header.css';
 import * as Popover from '@radix-ui/react-popover';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 
-const Header = ({ user }) => {
+interface Props {
+  user: {
+    uid: string;
+    photoURL: string;
+    displayName: string;
+  }
+  }
+
+const Header = ({ user }: Props) => {
   const handleLogout = () => {
     signOut(auth)
       .then(() => {
