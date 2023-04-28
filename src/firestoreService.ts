@@ -1,6 +1,6 @@
 //firestoreService.js
 
-import { firestore } from './firebase';
+import { firestore } from './firebase.ts';
 import {
   collection,
   addDoc,
@@ -13,7 +13,7 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
-export const createUserInFirestore = async (user, setData) => {
+export async function createUserInFirestore({ user, setData }: { user: any; setData: { (data: any): void; (arg0: { userId: any; }): void; }; }): Promise<void> {
   const userRef = doc(firestore, `users/${user.uid}`);
   const userDoc = await getDoc(userRef);
 
@@ -37,9 +37,9 @@ export const createUserInFirestore = async (user, setData) => {
   } else {
     setData({ userId: user.uid });
   }
-};
+}
 
-export const getComplimentsByUser = async (userId) => {
+export const getComplimentsByUser = async (userId: string) => {
   try {
     const querySnapshot = await getDocs(collection(firestore, `users/${userId}/compliments`));
     const compliments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
@@ -51,7 +51,7 @@ export const getComplimentsByUser = async (userId) => {
 };
 
 
-export const addCompliment = async (userId, compliment) => {
+export const addCompliment = async (userId: string, compliment: any) => {
   try {
     const complimentsRef = collection(firestore, `users/${userId}/compliments`);
     console.log('complimentsRef', complimentsRef)
@@ -74,7 +74,7 @@ export const addCompliment = async (userId, compliment) => {
 };
 
 
-export const deleteCompliment = async (userId, complimentId) => {
+export const deleteCompliment = async (userId: any, complimentId: any) => {
   try {
     await deleteDoc(doc(firestore, `users/${userId}/compliments/${complimentId}`));
   } catch (error) {

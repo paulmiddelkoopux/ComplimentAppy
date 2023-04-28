@@ -13,7 +13,7 @@ function ComplimentList(){
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
     {compliments.map((compliment) => (
-          <div className="Compliment" key={compliment}>
+          <div className="Compliment" key={compliment.id}>
             {compliment.content}
           </div>
         ))}

@@ -5,11 +5,15 @@ import { useContext } from 'react'
 import { addCompliment } from './firestoreService';
 import { ComplimentsContext } from './ComplimentsContext';
 
-function AddingCompliment({ userId }) {
+interface Props {
+  userId: string
+}
+
+function AddingCompliment({ userId }: Props) {
   const [compliments, setCompliments] = useContext(ComplimentsContext);
   console.log('ComplimentsContext when Adding Compliment', ComplimentsContext);
 
-  const handleSubmit = async (event) => {
+  const handleSubmit = async (event: { preventDefault: () => void; target: any; }) => {
     event.preventDefault();
     const form = event.target;
     const newCompliment = form.compliment.value;
