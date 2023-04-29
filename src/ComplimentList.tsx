@@ -12,11 +12,13 @@ function ComplimentList(){
         <div>
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
-    {compliments.map((compliment) => (
+      <div>
+    {compliments && compliments.map((compliment) => (
           <div className="Compliment" key={compliment.id}>
             {compliment.content}
           </div>
         ))}
+        </div>
     </ScrollArea.Viewport>
     <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="horizontal">
       <ScrollArea.Thumb />

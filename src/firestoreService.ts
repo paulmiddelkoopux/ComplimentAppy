@@ -13,6 +13,13 @@ import {
   serverTimestamp,
 } from 'firebase/firestore';
 
+interface Compliment {
+  id: string;
+  content: string;
+  date: any;
+  creatorId: string;
+}
+
 export async function createUserInFirestore({ user, setData }: { user: any; setData: { (data: any): void; (arg0: { userId: any; }): void; }; }): Promise<void> {
   const userRef = doc(firestore, `users/${user.uid}`);
   const userDoc = await getDoc(userRef);
@@ -42,11 +49,19 @@ export async function createUserInFirestore({ user, setData }: { user: any; setD
 export const getComplimentsByUser = async (userId: string) => {
   try {
     const querySnapshot = await getDocs(collection(firestore, `users/${userId}/compliments`));
-    const compliments = querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const compliments = querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+      return {
+        id: doc.id,
+        content: data.content,
+        date: data.date.toDate(),
+        creatorId: data.creatorId,
+      };
+    });
     return compliments;
   } catch (error) {
     console.error('Error getting compliments from Firestore:', error);
-    return null;
+    return [];
   }
 };
 

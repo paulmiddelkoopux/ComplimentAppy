@@ -22,44 +22,21 @@
   }
 
   interface Compliment {
-    id: string;
-    content: string;
-    date: Date;
-    creatorId: string;
-  }[]
+    id?: string;
+    content?: string;
+    date?: Date;
+    creatorId?: string;
+  }
 
   function App() {
     const [user, setUser] = useState<User | null>(null);
     const [compliments, setCompliments] = useState<Compliment[]>([]);
 
-
-    const handleUserLogin = async (user: SetStateAction<User | null>) => {
+    const handleUserLogin = async (user: User) => {
       console.log('User logged in:', user);
-      setUser(user);
+      setUser(user as User);
       console.log('User logged in2:', user);  
-    
-      // Check if the user has a "compliments" collection
-      const userRef = doc(firestore, "users", user?.uid);
-      const userSnap = await getDoc(userRef);
-      console.log('User snapshot:', userSnap.exists());
-    
-      if (!userSnap.exists()) {
-        // If the user does not exist in Firestore, create the user document
-      await createUserInFirestore({ user, setData: (data: any) => { } });
-
-        // If the user does not have a "compliments" collection, create it and add a first compliment
-        const complimentsRef = collection(firestore, "compliments");
-        console.log('Creating "compliments" collection...');
-
-        const newCompliment = {
-          text: "By trying out this app, I show self-love",
-          date: new Date()
-        };
-    
-        // Add the first compliment to the "compliments" collection
-        await addDoc(complimentsRef, newCompliment);
-    
-      }
+  
     };
 
     useEffect(() => {
@@ -71,7 +48,9 @@
         }
       };
     
-      fetchCompliments();
+      if (user) {
+        fetchCompliments();
+      }
     }, [user]);
 
     return ( 
@@ -85,7 +64,7 @@
     <div className="content">
       <ComplimentCounter />
       <ComplimentList />
-      <AddingCompliment userId={''} />
+      <AddingCompliment userId={user.uid} />
       </div>
       </div>
       </ComplimentsContext.Provider>)
