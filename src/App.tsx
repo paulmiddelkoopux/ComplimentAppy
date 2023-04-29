@@ -64,7 +64,7 @@
     <div className="content">
       <ComplimentCounter />
       <ComplimentList />
-      <AddingCompliment userId={user.uid} />
+      <AddingCompliment userId={user.uid}/>
       </div>
       </div>
       </ComplimentsContext.Provider>)

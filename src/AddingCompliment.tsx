@@ -1,25 +1,23 @@
 import * as Form from '@radix-ui/react-form';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { addCompliment } from './firestoreService';
 import { ComplimentsContext } from './ComplimentsContext';
 
-interface Props {
-  userId: string;
-}
+function AddingCompliment(userId: string) {
+  const [compliments, setCompliments] = useContext(ComplimentsContext) || [];
 
-function AddingCompliment({ userId }: Props) {
-  const [compliments, setCompliments] = useContext(ComplimentsContext);
-  console.log('ComplimentsContext when Adding Compliment', ComplimentsContext);
+  useEffect(() => {
+    console.log('ComplimentsContext when Adding Compliment', compliments);
+  }, [compliments]);
 
   const handleSubmit = async (event: { preventDefault: () => void; target: any; }) => {
     event.preventDefault();
     const form = event.target;
-    const newCompliment = { content: form.compliment.value };
+    const newCompliment = form.compliment.value;
     const result = await addCompliment(userId, newCompliment);
     if (result) {
       form.reset();
       alert('Compliment added successfully!');
-      console.log('Is it an array? Lets see:', compliments);
       setCompliments([...compliments, newCompliment]);
     } else {
       alert('Error adding compliment!');

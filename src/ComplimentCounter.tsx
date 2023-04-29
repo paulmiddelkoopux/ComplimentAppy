@@ -3,6 +3,7 @@ import { ComplimentsContext } from './ComplimentsContext.tsx';
 
 function ComplimentCounter() {
     const compliments = useContext(ComplimentsContext);
+    console.log(Array.isArray(compliments));
     console.log('ComplimentsContext when rendering Counter', compliments);
 
     return (

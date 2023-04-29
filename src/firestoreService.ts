@@ -58,6 +58,7 @@ export const getComplimentsByUser = async (userId: string) => {
         creatorId: data.creatorId,
       };
     });
+    console.log(Array.isArray(compliments))
     return compliments;
   } catch (error) {
     console.error('Error getting compliments from Firestore:', error);
@@ -66,23 +67,16 @@ export const getComplimentsByUser = async (userId: string) => {
 };
 
 
-export const addCompliment = async (userId: string, compliment: any) => {
+export const addCompliment = async (userId: string, newCompliment: string) => {
   try {
     const complimentsRef = collection(firestore, `users/${userId}/compliments`);
-    console.log('complimentsRef', complimentsRef)
-    const newComplimentRef = doc(complimentsRef);
-    console.log('newComplimentRef', newComplimentRef)
-    const newComplimentData = {
-      content: compliment,
-      date: serverTimestamp(),
-      creatorId: userId,
-    };
-    console.log('newComplimentData', newComplimentData)
+    const newComplimentData = { content: newCompliment, date: new Date() };
     await addDoc(complimentsRef, newComplimentData);
-    console.log('Added compliment with doc ID:', complimentsRef);
-    return complimentsRef;
+    const snapshot = await getDocs(complimentsRef);
+    const updatedCompliments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return updatedCompliments;
   } catch (error) {
-    console.log('user =', userId)
+    console.log('user =', userId);
     console.error('Error adding compliment to Firestore:', error);
     return null;
   }

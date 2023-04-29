@@ -12,10 +12,11 @@ import * as React from 'react';
 export const ComplimentsContext = React.createContext<Compliment[]>([]);
 
 export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [compliments, setCompliments] = React.useState<Compliment[]>([]);
+  const [compliments] = React.useState<Compliment[]>([]);
 
   React.useEffect(() => {
     console.log('Creating ComplimentsContext', compliments);
+    console.log(Array.isArray(compliments));
   }, [compliments]);
 
   return (

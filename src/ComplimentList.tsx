@@ -2,11 +2,12 @@
 import { useContext } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import './ComplimentList.css'
-import { ComplimentsContext } from './ComplimentsContext.js';
+import { ComplimentsContext } from './ComplimentsContext';
 
 function ComplimentList(){
-    const compliments = useContext(ComplimentsContext);
+    const compliments = useContext(ComplimentsContext) || [];
     console.log('ComplimentsContext when rendering List', compliments);
+    console.log(Array.isArray(compliments));
 
     return (
         <div>
