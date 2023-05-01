@@ -1,6 +1,7 @@
 // ComplimentsContext.tsx
 
 import * as React from 'react';
+import { createContext, useState } from 'react';
 
   interface Compliment {
   id?: string;
@@ -9,10 +10,16 @@ import * as React from 'react';
   creatorId?: string;
 }
 
-export const ComplimentsContext = React.createContext<Compliment[]>([]);
+type ContextType = {
+  compliments: Compliment[]
+  setCompliments: (c: Compliment) => void
+}
+
+export const ComplimentsContext = createContext<ContextType>({compliments: [], setCompliments: () => {}});
+// export const ComplimentsContext = React.createContext<Compliment[]>([]);
 
 export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [compliments] = React.useState<Compliment[]>([]);
+  const [compliments, setCompliments] = useState<Compliment[]>([]);
 
   React.useEffect(() => {
     console.log('Creating ComplimentsContext', compliments);
@@ -20,7 +27,7 @@ export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ c
   }, [compliments]);
 
   return (
-    <ComplimentsContext.Provider value={compliments}>
+    <ComplimentsContext.Provider value={{ compliments, setCompliments}}>
       {children}
     </ComplimentsContext.Provider>
   );

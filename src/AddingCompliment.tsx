@@ -1,14 +1,12 @@
 import * as Form from '@radix-ui/react-form';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, createContext } from 'react';
 import { addCompliment } from './firestoreService';
 import { ComplimentsContext } from './ComplimentsContext';
 
 function AddingCompliment(userId: string) {
-  const [compliments, setCompliments] = useContext(ComplimentsContext) || [];
-
-  useEffect(() => {
-    console.log('ComplimentsContext when Adding Compliment', compliments);
-  }, [compliments]);
+  const {compliments, setCompliments} = useContext(ComplimentsContext) || [];
+  console.log('ComplimentsContext when Adding Compliment', compliments);
+  // const setCompliments = createContext(ComplimentsContext) || [];
 
   const handleSubmit = async (event: { preventDefault: () => void; target: any; }) => {
     event.preventDefault();
@@ -28,9 +26,9 @@ function AddingCompliment(userId: string) {
     <Form.Root onSubmit={handleSubmit}>
       <Form.Field className="FormField" name="question">
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
-          <Form.Label className="FormLabel">Compliment</Form.Label>
+          <Form.Label className="FormLabel">What is nice about you?</Form.Label>
           <Form.Message className="FormMessage" match="valueMissing">
-            What is nice about you?
+            Please add a compliment
           </Form.Message>
         </div>
         <Form.Control asChild>

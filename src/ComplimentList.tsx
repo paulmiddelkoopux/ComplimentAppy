@@ -8,18 +8,17 @@ function ComplimentList(){
     const compliments = useContext(ComplimentsContext) || [];
     console.log('ComplimentsContext when rendering List', compliments);
     console.log(Array.isArray(compliments));
-
     return (
         <div>
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
-      <div>
+      {<div>
     {compliments && compliments.map((compliment) => (
           <div className="Compliment" key={compliment.id}>
             {compliment.content}
           </div>
         ))}
-        </div>
+        </div>}
     </ScrollArea.Viewport>
     <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="horizontal">
       <ScrollArea.Thumb />
