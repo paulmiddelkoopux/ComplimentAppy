@@ -9,7 +9,7 @@ function ComplimentList(){
     console.log('ComplimentsContext when rendering List', compliments);
     console.log(Array.isArray(compliments));
     return (
-        <div>
+        <div className="complimentList">
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
       {<div>

@@ -7,7 +7,7 @@ function ComplimentCounter() {
     console.log('ComplimentsContext when rendering Counter', compliments);
 
     return (
-        <div>
+        <div className="complimentCounter">
             {compliments.length}
             <h1>Number of compliments</h1>
         </div>

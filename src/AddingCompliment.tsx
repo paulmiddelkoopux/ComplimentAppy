@@ -23,7 +23,7 @@ function AddingCompliment(userId: string) {
   };
 
   return (
-    <Form.Root onSubmit={handleSubmit}>
+    <Form.Root className="addingCompliment" onSubmit={handleSubmit}>
       <Form.Field className="FormField" name="question">
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
           <Form.Label className="FormLabel">What is nice about you?</Form.Label>
