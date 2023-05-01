@@ -62,7 +62,7 @@
         <Header user={user} />
       </div>
     <div className="content">
-      <ComplimentCounter />
+      <ComplimentCounter/>
       <ComplimentList />
       <AddingCompliment userId={user.uid}/>
       </div>
