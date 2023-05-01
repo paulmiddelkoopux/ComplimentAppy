@@ -70,7 +70,9 @@ export const getComplimentsByUser = async (userId: string) => {
 export const addCompliment = async (userId: string, newCompliment: string) => {
   try {
     const complimentsRef = collection(firestore, `users/${userId}/compliments`);
-    const newComplimentData = { content: newCompliment, date: new Date() };
+    console.log('userId for addCompliment in Firestore:', userId);
+    const newComplimentData = { content: newCompliment, date: new Date(), creatorId: userId };
+    console.log('newComplimentdata', newComplimentData)
     await addDoc(complimentsRef, newComplimentData);
     const snapshot = await getDocs(complimentsRef);
     const updatedCompliments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));

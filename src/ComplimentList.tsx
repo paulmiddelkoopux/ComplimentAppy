@@ -1,11 +1,14 @@
 //ComplimentList.tsx
-import { useContext } from 'react';
+import { JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal, useContext } from 'react';
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import './ComplimentList.css'
 import { ComplimentsContext } from './ComplimentsContext';
 
 function ComplimentList(){
     const compliments = useContext(ComplimentsContext) || [];
+
+    compliments.sort((a, b) => new Date(b.date) - new Date(a.date));
+
     console.log('ComplimentsContext when rendering List', compliments);
     console.log(Array.isArray(compliments));
     return (
@@ -13,7 +16,7 @@ function ComplimentList(){
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
       {<div>
-    {compliments && compliments.map((compliment) => (
+    {compliments && compliments.map((compliment: { id: Key | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) => (
           <div className="Compliment" key={compliment.id}>
             {compliment.content}
           </div>

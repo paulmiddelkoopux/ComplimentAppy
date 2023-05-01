@@ -11,11 +11,22 @@ import { createContext, useState } from 'react';
 }
 
 type ContextType = {
+  [x: string]: ReactNode;
+  sort(arg0: (a: any, b: any) => number): unknown;
+  map(arg0: (compliment: { id: React.Key | null | undefined; content: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined; }) => JSX.Element): React.ReactNode;
   compliments: Compliment[]
   setCompliments: (c: Compliment) => void
 }
 
-export const ComplimentsContext = createContext<ContextType>({compliments: [], setCompliments: () => {}});
+export const ComplimentsContext = createContext<ContextType>({
+  compliments: [], setCompliments: () => { },
+  sort: function (arg0: (a: any, b: any) => number): unknown {
+    throw new Error('Function not implemented.');
+  },
+  map: function (arg0: (compliment: { id: React.Key | null | undefined; content: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined; }) => JSX.Element): React.ReactNode {
+    throw new Error('Function not implemented.');
+  }
+});
 // export const ComplimentsContext = React.createContext<Compliment[]>([]);
 
 export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
