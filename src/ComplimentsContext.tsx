@@ -40,9 +40,13 @@ export const ComplimentsProvider: React.FC<ComplimentsProviderProps> = ({ childr
   const contextValue: ContextType = {
     compliments,
     setCompliments,
-    sort: (compareFn?: (a: Compliment, b: Compliment) => number) => [],
-    map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element) => [],
-  };
+    sort: (compareFn?: (a: Compliment, b: Compliment) => number) => {
+      return compliments.sort(compareFn);
+    },
+    map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element) => {
+      return compliments.map(callbackfn);
+    },
+  };  
 
   return (
     <ComplimentsContext.Provider value={contextValue}>
