@@ -10,26 +10,26 @@ import { createContext, useState } from 'react';
   creatorId?: string;
 }
 
-type ContextType = {
-  [x: string]: ReactNode;
-  sort(arg0: (a: any, b: any) => number): unknown;
-  map(arg0: (compliment: { id: React.Key | null | undefined; content: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined; }) => JSX.Element): React.ReactNode;
-  compliments: Compliment[]
-  setCompliments: (c: Compliment) => void
+interface ComplimentsProviderProps {
+  children: React.ReactNode;
 }
 
-export const ComplimentsContext = createContext<ContextType>({
-  compliments: [], setCompliments: () => { },
-  sort: function (arg0: (a: any, b: any) => number): unknown {
-    throw new Error('Function not implemented.');
-  },
-  map: function (arg0: (compliment: { id: React.Key | null | undefined; content: string | number | boolean | React.ReactFragment | React.ReactPortal | React.ReactElement<any, string | React.JSXElementConstructor<any>> | null | undefined; }) => JSX.Element): React.ReactNode {
-    throw new Error('Function not implemented.');
-  }
-});
-// export const ComplimentsContext = React.createContext<Compliment[]>([]);
+type ContextType = {
+  compliments: Compliment[];
+  setCompliments: React.Dispatch<React.SetStateAction<Compliment[]>>;
+  sort: (compareFn?: (a: Compliment, b: Compliment) => number) => Compliment[];
+  map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element, compliments: Compliment[]) => JSX.Element[];
+};
 
-export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+
+export const ComplimentsContext = createContext<ContextType>({
+  compliments: [], 
+  setCompliments: () => { throw new Error('setCompliments is not implemented'); },
+  sort: (compareFn?: (a: Compliment, b: Compliment) => number) => [],
+  map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element) => [],
+});
+
+export const ComplimentsProvider: React.FC<ComplimentsProviderProps> = ({ children }) => {
   const [compliments, setCompliments] = useState<Compliment[]>([]);
 
   React.useEffect(() => {
@@ -37,11 +37,19 @@ export const ComplimentsProvider: React.FC<{ children: React.ReactNode }> = ({ c
     console.log(Array.isArray(compliments));
   }, [compliments]);
 
+  const contextValue: ContextType = {
+    compliments,
+    setCompliments,
+    sort: (compareFn?: (a: Compliment, b: Compliment) => number) => [],
+    map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element) => [],
+  };
+
   return (
-    <ComplimentsContext.Provider value={{ compliments, setCompliments}}>
+    <ComplimentsContext.Provider value={contextValue}>
       {children}
     </ComplimentsContext.Provider>
   );
 };
+
 
   

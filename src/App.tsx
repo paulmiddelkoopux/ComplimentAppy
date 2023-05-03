@@ -1,15 +1,13 @@
   //app.tsx
 
-  import { SetStateAction, useState, useEffect, createContext } from 'react'
+  import { useState, useEffect } from 'react'
   import ComplimentList from './ComplimentList'
   import AddingCompliment from './AddingCompliment.js';
   import ComplimentCounter from './ComplimentCounter';
   import Header from './Header';
   import { ComplimentsContext } from './ComplimentsContext.js';
   import { UserContext } from './UserContext';
-  import { firestore } from './firebase.ts';
-  import { createUserInFirestore, getComplimentsByUser } from './firestoreService.js';
-  import { collection, doc, addDoc, updateDoc, deleteDoc, getDoc, getDocs, setDoc } from 'firebase/firestore';
+  import { getComplimentsByUser } from './firestoreService.js';
   import LogIn from './LogIn';
   import './App.css'
 
@@ -56,7 +54,7 @@
     return ( 
       <UserContext.Provider value={user?.uid ?? null}>
       {user ? ( 
-        <ComplimentsContext.Provider value={compliments}>
+        <ComplimentsContext.Provider value={{ compliments, setCompliments}}>
       <div className="app">
       <div className="headerBar">
         <Header user={user} />

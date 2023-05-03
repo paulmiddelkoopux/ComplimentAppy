@@ -5,7 +5,7 @@ import './ComplimentList.css'
 import { ComplimentsContext } from './ComplimentsContext';
 
 function ComplimentList(){
-    const compliments = useContext(ComplimentsContext) || [];
+    const compliments = useContext(ComplimentsContext) ?? [];
 
     compliments.sort((a, b) => new Date(b.date) - new Date(a.date));
 
@@ -16,11 +16,12 @@ function ComplimentList(){
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
       {<div>
-    {compliments && compliments.map((compliment: { id: Key | null | undefined; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) => (
-          <div className="Compliment" key={compliment.id}>
-            {compliment.content}
-          </div>
-        ))}
+        {compliments.map((compliment: { id: string; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) => (
+  <div className="Compliment" key={compliment.id}>
+    {compliment.content}
+  </div>
+), (compliment) => compliment)}
+
         </div>}
     </ScrollArea.Viewport>
     <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="horizontal">
