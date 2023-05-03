@@ -3,11 +3,19 @@ import { JSXElementConstructor, Key, ReactElement, ReactFragment, ReactPortal, u
 import * as ScrollArea from '@radix-ui/react-scroll-area';
 import './ComplimentList.css'
 import { ComplimentsContext } from './ComplimentsContext';
+import { Compliment } from './ComplimentsContext';
 
 function ComplimentList(){
     const compliments = useContext(ComplimentsContext) ?? [];
 
-    compliments.sort((a, b) => new Date(b.date) - new Date(a.date));
+    compliments.sort((a: Compliment, b: Compliment) => {
+      if (a.date && b.date) {
+        return new Date(b.date) - new Date(a.date);
+      } else {
+        return 0;
+      }
+    });
+
 
     console.log('ComplimentsContext when rendering List', compliments);
     console.log(Array.isArray(compliments));
@@ -16,12 +24,11 @@ function ComplimentList(){
               <ScrollArea.Root className="ScrollAreaRoot">
     <ScrollArea.Viewport className="ScrollAreaViewport">
       {<div>
-        {compliments.map((compliment: { id: string; content: string | number | boolean | ReactElement<any, string | JSXElementConstructor<any>> | ReactFragment | ReactPortal | null | undefined; }) => (
-  <div className="Compliment" key={compliment.id}>
-    {compliment.content}
-  </div>
-), (compliment) => compliment)}
-
+        {compliments.map((compliment: Compliment) => (
+    <div className="Compliment" key={compliment.id}>
+        {compliment.content}
+    </div>
+))}
         </div>}
     </ScrollArea.Viewport>
     <ScrollArea.Scrollbar className="ScrollAreaScrollbar" orientation="horizontal">
