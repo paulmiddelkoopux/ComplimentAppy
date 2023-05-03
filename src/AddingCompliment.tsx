@@ -1,7 +1,7 @@
 import * as Form from '@radix-ui/react-form';
 import { useContext } from 'react';
 import { addCompliment } from './firestoreService';
-import { ComplimentsContext } from './ComplimentsContext';
+import { Compliment, ComplimentsContext } from './ComplimentsContext';
 
 function AddingCompliment({ userId }: { userId: string }) {
   const {compliments, setCompliments} = useContext(ComplimentsContext) || [];
