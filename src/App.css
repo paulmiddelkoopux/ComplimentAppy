@@ -53,6 +53,10 @@ body {
   flex-direction: column;
 }
 
+.header {
+  width: 100%;
+}
+
 .headerBar {
   display: flex;
   flex-shrink: 0;
