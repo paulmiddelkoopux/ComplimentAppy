@@ -39,7 +39,7 @@
 
     useEffect(() => {
       const fetchCompliments = async () => {
-        if (user) {
+        if (user !== null) {
           const compliments = await getComplimentsByUser(user.uid);
           setCompliments(compliments);
           console.log('User compliments', compliments);
@@ -54,7 +54,12 @@
     return ( 
       <UserContext.Provider value={user?.uid ?? null}>
       {user ? ( 
-        <ComplimentsContext.Provider value={{ compliments, setCompliments}}>
+        <ComplimentsContext.Provider value={{ 
+          compliments, 
+          setCompliments,
+          sort,
+          map,
+          length}}>
       <div className="app">
       <div className="headerBar">
         <Header user={user} />
