@@ -57,9 +57,7 @@
         <ComplimentsContext.Provider value={{ 
           compliments, 
           setCompliments,
-          sort,
-          map,
-          length}}>
+          sort: ComplimentsContext.sort}}>
       <div className="app">
       <div className="headerBar">
         <Header user={user} />

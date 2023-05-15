@@ -15,11 +15,9 @@ interface ComplimentsProviderProps {
 }
 
 type ContextType = {
-  length: React.ReactNode;
   compliments: Compliment[];
   setCompliments: React.Dispatch<React.SetStateAction<Compliment[]>>;
   sort: (compareFn?: (a: Compliment, b: Compliment) => number) => Compliment[];
-  map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element, compliments: Compliment[]) => JSX.Element[];
 };
 
 
@@ -27,8 +25,6 @@ export const ComplimentsContext = createContext<ContextType>({
   compliments: [],
   setCompliments: () => { throw new Error('setCompliments is not implemented'); },
   sort: (_compareFn?: (a: Compliment, b: Compliment) => number) => [],
-  map: (_callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element) => [],
-  length: undefined
 });
 
 export const ComplimentsProvider: React.FC<ComplimentsProviderProps> = ({ children }) => {
@@ -39,17 +35,15 @@ export const ComplimentsProvider: React.FC<ComplimentsProviderProps> = ({ childr
     console.log(Array.isArray(compliments));
   }, [compliments]);
 
+  const sort = (compareFn?: (a: Compliment, b: Compliment) => number) => {
+    return [...compliments].sort(compareFn);
+  };
+
   const contextValue: ContextType = {
     compliments,
     setCompliments,
-    sort: (compareFn?: (a: Compliment, b: Compliment) => number) => {
-      return compliments.sort(compareFn);
-    },
-    map: (callbackfn: (value: Compliment, index: number, array: Compliment[]) => JSX.Element, compliments: Compliment[]) => {
-      return compliments.map(callbackfn);
-    },
-    length: undefined
-  };  
+    sort,
+  };
 
   return (
     <ComplimentsContext.Provider value={contextValue}>
@@ -57,6 +51,3 @@ export const ComplimentsProvider: React.FC<ComplimentsProviderProps> = ({ childr
     </ComplimentsContext.Provider>
   );
 };
-
-
-  
