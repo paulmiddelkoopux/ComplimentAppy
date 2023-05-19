@@ -4,21 +4,12 @@ import { firestore } from './firebase.ts';
 import {
   collection,
   addDoc,
-  updateDoc,
   deleteDoc,
   doc,
   getDoc,
   getDocs,
   setDoc,
-  serverTimestamp,
 } from 'firebase/firestore';
-
-interface Compliment {
-  id: string;
-  content: string;
-  date: any;
-  creatorId: string;
-}
 
 export async function createUserInFirestore({ user, setData }: { user: any; setData: { (data: any): void; (arg0: { userId: any; }): void; }; }): Promise<void> {
   const userRef = doc(firestore, `users/${user.uid}`);
@@ -74,9 +65,7 @@ export const addCompliment = async (userId: string, newCompliment: string) => {
     const newComplimentData = { content: newCompliment, date: new Date(), creatorId: userId };
     console.log('newComplimentdata', newComplimentData)
     await addDoc(complimentsRef, newComplimentData);
-    const snapshot = await getDocs(complimentsRef);
-    const updatedCompliments = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return updatedCompliments;
+
   } catch (error) {
     console.log('user =', userId);
     console.error('Error adding compliment to Firestore:', error);

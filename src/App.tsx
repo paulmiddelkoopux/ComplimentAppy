@@ -56,10 +56,7 @@
       {user ? ( 
         <ComplimentsContext.Provider value={{ 
           compliments, 
-          setCompliments,
-          sort,
-          map,
-          length}}>
+          setCompliments}}>
       <div className="app">
       <div className="headerBar">
         <Header user={user} />
