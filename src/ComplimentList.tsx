@@ -6,7 +6,7 @@ import { ComplimentsContext } from './ComplimentsContext';
 import { Compliment } from './ComplimentsContext';
 
 function ComplimentList(){
-    const compliments = useContext(ComplimentsContext) ?? [];
+  const { compliments, setCompliments } = useContext(ComplimentsContext);
 
     console.log('ComplimentsContext when rendering List', compliments);
     console.log(Array.isArray(compliments));
