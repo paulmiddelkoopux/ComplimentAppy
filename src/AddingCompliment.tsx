@@ -1,5 +1,5 @@
 import * as Form from '@radix-ui/react-form';
-import { useContext } from 'react';
+import { useContext, useRef } from 'react';
 import { addCompliment } from './firestoreService';
 import { ComplimentsContext } from './ComplimentsContext';
 
@@ -8,22 +8,32 @@ function AddingCompliment({ userId }: { userId: string }) {
   console.log('ComplimentsContext when Adding Compliment', compliments);
   console.log('userId for Addingcompliment:', userId);
 
-  const handleSubmit = async (event: { preventDefault: () => void; target: any; }) => {
-    event.preventDefault();
-    const form = event.target;
+  // Create a ref for the form
+  const formRef = useRef(null);
+
+  const handleSubmit = async () => {
+    // Get the form and the new compliment from the formRef
+    const form = formRef.current;
     const newCompliment = form.compliment.value as string;
-    const result = await addCompliment(userId, newCompliment);
-    if (result) {
-      form.reset();
-      alert('Compliment added successfully!');
-      setCompliments([...compliments, result]);
-    } else {
+  
+    try {
+      const result = await addCompliment(userId, newCompliment);
+      console.log('Result from addCompliment:', result);
+      if (result) {
+        form.reset();
+        alert('Compliment added successfully!');
+        setCompliments([...compliments, result]);
+      } else {
+        alert('Error adding compliment!');
+      }
+    } catch (error) {
+      console.error('Error in addCompliment:', error);
       alert('Error adding compliment!');
     }
   };
-
+  
   return (
-    <Form.Root className="addingCompliment" onSubmit={handleSubmit}>
+    <Form.Root className="addingCompliment" onSubmit={(event) => { event.preventDefault(); handleSubmit(); }} ref={formRef}>
       <Form.Field className="FormField" name="question">
         <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between' }}>
           <Form.Label className="FormLabel">What is nice about you?</Form.Label>
@@ -32,7 +42,20 @@ function AddingCompliment({ userId }: { userId: string }) {
           </Form.Message>
         </div>
         <Form.Control asChild>
-          <textarea className="Textarea" name="compliment" required />
+          <textarea 
+            className="Textarea" 
+            name="compliment" 
+            required 
+            onKeyDown={(event) => {
+              if (event.key === 'Enter' && event.ctrlKey) {
+                // ...
+              } else if (event.key === 'Enter') {
+                event.preventDefault();
+                // Call handleSubmit
+                handleSubmit();
+              }
+            }}
+          />
         </Form.Control>
       </Form.Field>
       <Form.Submit asChild>
@@ -41,7 +64,8 @@ function AddingCompliment({ userId }: { userId: string }) {
         </button>
       </Form.Submit>
     </Form.Root>
-  );
+  );  
 }
+
 
 export default AddingCompliment;

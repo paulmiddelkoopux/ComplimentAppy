@@ -64,8 +64,8 @@ export const addCompliment = async (userId: string, newCompliment: string) => {
     console.log('userId for addCompliment in Firestore:', userId);
     const newComplimentData = { content: newCompliment, date: new Date(), creatorId: userId };
     console.log('newComplimentdata', newComplimentData)
-    await addDoc(complimentsRef, newComplimentData);
-
+    const docRef = await addDoc(complimentsRef, newComplimentData);
+    return docRef.id;  // Return the ID of the new document
   } catch (error) {
     console.log('user =', userId);
     console.error('Error adding compliment to Firestore:', error);
