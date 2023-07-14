@@ -6,7 +6,7 @@
   import ComplimentCounter from './ComplimentCounter';
   import Header from './Header';
   import { ComplimentsContext } from './ComplimentsContext.js';
-  import { UserContext } from './UserContext';
+  import { UserProvider } from './UserContext';
   import { getComplimentsByUser } from './firestoreService.js';
   import LogIn from './LogIn';
   import './App.css'
@@ -52,7 +52,7 @@
     }, [user]);
 
     return ( 
-      <UserContext.Provider value={user?.uid ?? null}>
+      <UserProvider value={user?.uid ?? null}>
       {user ? ( 
         <ComplimentsContext.Provider value={{ 
           compliments, 
@@ -74,7 +74,7 @@
       </div>
     )
   }
-    </UserContext.Provider>
+    </UserProvider>
     )
   }
 
